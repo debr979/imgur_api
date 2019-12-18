@@ -2,15 +2,12 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/tidwall/gjson"
 	"io"
 	"io/ioutil"
 	"log"
 	"mime/multipart"
 	"net/http"
-	"strings"
 )
 
 const IMGUR_TOKEN = "xxxxxx"
@@ -62,12 +59,6 @@ func upload(image io.Reader, token string) string {
 			log.Print(err)
 		}
 	}()
-	var link string
 	b, _ := ioutil.ReadAll(res.Body)
-	success := gjson.Get(string(b), "success")
-	if strings.Contains(success.Str, "true") {
-		link = gjson.Get(string(b), "data.link").Str
-		fmt.Printf("Link: %s", link)
-	}
 	return string(b)
 }
